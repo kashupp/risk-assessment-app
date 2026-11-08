@@ -22,12 +22,12 @@ def calculate_risk():
         # Display result
         if result == "RISK":
             result_label.config(
-                text="Patient is classified as high risk",
+                text="Patient is classified as HIGH RISK",
                 fg="red"
             )
         else:
             result_label.config(
-                text="Patient is classified as low risk",
+                text="Patient is classified as LOW RISK",
                 fg="green"
             )
 
