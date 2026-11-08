@@ -1,0 +1,54 @@
+name: Python GUI CI-CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+
+  # CONTINUOUS INTEGRATION (CI)
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Unit Tests
+        run: python -m unittest discover -v
+
+  # CONTINUOUS DELIVERY
+  package:
+    runs-on: ubuntu-latest
+    needs: test
+
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Package GUI Application
+        run: |
+          zip risk-assessment-gui.zip app.py gui.py requirements.txt
+
+      - name: Upload Application
+        uses: actions/upload-artifact@v4
+        with:
+          name: risk-assessment-gui
+          path: risk-assessment-gui.zip
