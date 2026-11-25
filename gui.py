@@ -1,10 +1,10 @@
 
-import tkinter as tk
-from tkinter import messagebox
-import customtkinter as ctk
 from datetime import datetime
-from app import assess_risk
+from tkinter import messagebox
 
+import customtkinter as ctk
+
+from app import assess_risk
 
 # APPLICATION CONFIGURATION
 ctk.set_appearance_mode("light")
@@ -231,7 +231,7 @@ class RiskAssessmentApp(ctk.CTk):
 
                 numbers.append(value)
 
-            # Run assessment model
+            # RUN ASSESSMENT MODEL
             total = sum(numbers)
             result = assess_risk(numbers)
 
@@ -258,9 +258,9 @@ class RiskAssessmentApp(ctk.CTk):
 
             messagebox.showerror( "Invalid Input", str(error) )
 
-        except Exception as error:
+        except (TypeError, OverflowError) as error:
 
-            messagebox.showerror( "Assessment Error", str(error))
+            messagebox.showerror("Assessment Error", str(error))
     
     # ADD LOG ENTRY
     def add_log_entry(self, total, classification):
@@ -312,7 +312,6 @@ class RiskAssessmentApp(ctk.CTk):
                     lambda: self.log_container._parent_canvas.yview_moveto(1.0))
 
     # CLEAR INPUT FIELDS
-    
     def clear_fields(self):
         #Clear fields
         for entry in self.entries:
@@ -328,7 +327,6 @@ class RiskAssessmentApp(ctk.CTk):
 
     
     # CLEAR HISTORY LOG
-    
     def clear_log(self):
 
         if self.log_count == 0:
@@ -362,9 +360,9 @@ class RiskAssessmentApp(ctk.CTk):
 
             # Return keyboard focus to the window,
             # without forcing focus onto an input field.
-            self.focus_set()   
-    # FOOTER
+            self.focus_set()
 
+    # FOOTER
     def create_footer(self):
 
         footer = ctk.CTkLabel( self,
@@ -374,7 +372,6 @@ class RiskAssessmentApp(ctk.CTk):
 
 
 # RUN APPLICATION
-
 if __name__ == "__main__":
 
     application = RiskAssessmentApp()

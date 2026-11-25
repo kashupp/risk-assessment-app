@@ -1,5 +1,5 @@
 
-name: Python GUI CI-CD Pipeline
+name: Research Risk Assessment CI/CD
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
       - main
       - dev
       - feature/windows-exe
+      - feature/streamlit-web-app
 
     tags:
       - 'v*'
@@ -15,12 +16,13 @@ on:
     branches:
       - main
       - dev
+
 permissions:
   contents: read
-  
+
 jobs:
 
-  # CONTINUOUS INTEGRATION (CI)
+  # CONTINUOUS INTEGRATION
   test:
     runs-on: ubuntu-latest
 
@@ -37,12 +39,19 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
+          python -m pip install ruff
+
+      - name: Run Ruff
+        run: python -m ruff check .
+
+      - name: Check Python Syntax
+        run: |
+          python -m compileall -q app.py gui.py streamlit_app.py test_app.py
 
       - name: Run Unit Tests
         run: python -m unittest discover -v
 
-
-  # CONTINUOUS DELIVERY & ZIP PACKAGE
+  # PACKAGE BOTH APPLICATIONS
   package:
     runs-on: ubuntu-latest
     needs: test
@@ -58,29 +67,30 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Package GUI Application
+      - name: Package Research Risk Assessment
         run: |
-          zip risk-assessment-gui.zip app.py gui.py requirements.txt
+          zip research-risk-assessment.zip \
+            app.py \
+            gui.py \
+            streamlit_app.py \
+            requirements.txt
 
       - name: Upload Application
         uses: actions/upload-artifact@v4
         with:
-          name: risk-assessment-gui
-          path: risk-assessment-gui.zip
+          name: research-risk-assessment
+          path: research-risk-assessment.zip
 
-
-  # WINDOWS EXECUTABLE BUILD
+  # WINDOWS DESKTOP EXECUTABLE
   build-windows-exe:
     runs-on: windows-latest
     needs: test
 
-    
     if: github.event_name == 'push' && (
       github.ref == 'refs/heads/feature/windows-exe' ||
       github.ref == 'refs/heads/main' ||
       startsWith(github.ref, 'refs/tags/v')
       )
-
 
     steps:
       - name: Checkout Code
@@ -129,8 +139,7 @@ jobs:
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          name: Risk Assessment App ${{ github.ref_name }}
+          name: Research Risk Assessment ${{ github.ref_name }}
           generate_release_notes: true
           files: release-files/RiskAssessment.exe
           fail_on_unmatched_files: true
-
