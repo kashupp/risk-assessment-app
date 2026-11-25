@@ -19,6 +19,16 @@ The project demonstrates Python application development, input validation, reusa
 - Unit testing and automated code-quality checks.
 - GitHub Actions workflows for packaging and Windows executable builds.
 
+## Application Screenshots
+
+### Desktop Application
+
+![Desktop Risk Assessment Application](docs/images/desktop-app.png)
+
+### Web Application
+
+![Streamlit Risk Assessment Application](docs/images/streamlit-app.png)
+
 ## Scoring Methodology
 
 The application accepts five numerical features and calculates their sum:
