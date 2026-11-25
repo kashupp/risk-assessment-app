@@ -29,6 +29,12 @@ The project demonstrates Python application development, input validation, reusa
 
 ![Streamlit Risk Assessment Application](docs/images/streamlit-app.png)
 
+## Documentation
+
+- [Application Architecture](docs/architecture.md)
+- [Application Usage Guide](docs/usage.md)
+- [Testing and Continuous Integration](docs/testing-and-ci.md)
+
 ## Scoring Methodology
 
 The application accepts five numerical features and calculates their sum:
