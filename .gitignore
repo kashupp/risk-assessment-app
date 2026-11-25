@@ -1,0 +1,25 @@
+# macOS
+.DS_Store
+._*
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Testing and linting
+.pytest_cache/
+.ruff_cache/
+.coverage
+
+# Build files
+build/
+dist/
+
+# Temporary Word files
+~$*.docx
